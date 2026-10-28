@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10141e">
+    <meta name="description" content="Check password strength locally, get practical improvement tips, and learn how secure password hashing works.">
+    <title>Password Security Analyzer</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Password Security Analyzer home">
+        <span class="brand-mark" aria-hidden="true">⌑</span>
+        <span>Pass<span class="brand-accent">wise</span></span>
+      </a>
+      <span class="privacy-pill"><span class="privacy-dot"></span> Your password stays on this device</span>
+    </header>
+
+    <main class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="eyebrow-line"></span> YOUR SECURITY, MADE SIMPLE</div>
+        <h1 id="page-title">A stronger password<br>starts <span>right here.</span></h1>
+        <p class="intro-copy">Check a password, get practical ways to improve it, and see how secure password storage works.</p>
+      </section>
+
+      <section class="analyzer-card" aria-labelledby="analyzer-title">
+        <div class="card-heading">
+          <div>
+            <div class="section-kicker">01 <span>·</span> PASSWORD CHECK</div>
+            <h2 id="analyzer-title">Test your password</h2>
+          </div>
+          <span class="local-badge"><span aria-hidden="true">●</span> LOCAL ONLY</span>
+        </div>
+
+        <label class="field-label" for="password-input">Enter a password to analyze</label>
+        <div class="password-field">
+          <input id="password-input" name="password" type="password" autocomplete="new-password" spellcheck="false" maxlength="128" placeholder="Type a password..." aria-describedby="privacy-note">
+          <button class="icon-button" id="toggle-visibility" type="button" aria-label="Show password" aria-pressed="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.2-6 9.5-6 9.5 6 9.5 6-3.2 6-9.5 6-9.5-6-9.5-6Z"/><circle cx="12" cy="12" r="2.6"/></svg>
+          </button>
+        </div>
+        <p class="privacy-note" id="privacy-note"><span aria-hidden="true">↳</span> Strength checks stay in your browser; the hash demo uses only your local Python server.</p>
+
+        <div class="strength-panel" aria-live="polite" aria-atomic="true">
+          <div class="strength-topline">
+            <span class="strength-caption" id="strength-caption">STRENGTH</span>
+            <span class="strength-rating" id="strength-rating">Waiting for input</span>
+          </div>
+          <div class="strength-meter" id="strength-meter" role="meter" aria-label="Password strength" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0">
+            <span class="meter-segment"></span><span class="meter-segment"></span><span class="meter-segment"></span><span class="meter-segment"></span>
+          </div>
+          <div class="strength-foot">
+            <span id="strength-summary">Start typing to see your results</span>
+            <span id="entropy-estimate">—</span>
+          </div>
+        </div>
+
+        <div class="feedback-grid">
+          <section class="feedback-block" aria-labelledby="checks-title">
+            <h3 id="checks-title">SECURITY CHECKS</h3>
+            <ul class="check-list" id="check-list">
+              <li class="check-item" data-check="length"><span class="check-icon" aria-hidden="true">○</span><span>At least 12 characters</span></li>
+              <li class="check-item" data-check="variety"><span class="check-icon" aria-hidden="true">○</span><span>Mix of character types</span></li>
+              <li class="check-item" data-check="predictability"><span class="check-icon" aria-hidden="true">○</span><span>Avoids common patterns</span></li>
+              <li class="check-item" data-check="uniqueness"><span class="check-icon" aria-hidden="true">○</span><span>Not a commonly used password</span></li>
+            </ul>
+          </section>
+          <section class="feedback-block suggestions-block" aria-labelledby="suggestions-title">
+            <h3 id="suggestions-title">WAYS TO MAKE IT STRONGER</h3>
+            <ul class="suggestion-list" id="suggestion-list">
+              <li>Use 12 or more characters; a longer passphrase is even better.</li>
+              <li>Avoid names, dates, repeated characters, and familiar sequences.</li>
+              <li>Use a unique password for every account.</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="generator-row">
+          <div><strong>Need a fresh start?</strong><span>Make a random 20-character password on this device.</span></div>
+          <button class="secondary-button" id="generate-button" type="button"><span aria-hidden="true">✦</span> Generate password</button>
+        </div>
+      </section>
+
+      <section class="hash-card" aria-labelledby="hash-title">
+        <div class="hash-intro">
+          <div class="section-kicker">02 <span>·</span> BEHIND THE SCENES</div>
+          <h2 id="hash-title">A hash, not a password.</h2>
+          <p>Websites should store a salted, deliberately slow password hash — never the original password. Try a local PBKDF2 demo with your test password.</p>
+          <div class="hash-callout"><span aria-hidden="true">i</span><span>Use a made-up password here. This demo sends it only to the Python server running on your own computer. It is not saved.</span></div>
+        </div>
+        <div class="hash-demo">
+          <div class="hash-demo-heading"><span class="hash-lock" aria-hidden="true">▣</span><div><strong>PBKDF2-HMAC-SHA256</strong><span>Salted · 600,000 iterations</span></div></div>
+          <button class="hash-button" id="hash-button" type="button" disabled>Hash this password <span aria-hidden="true">→</span></button>
+          <div class="hash-result" id="hash-result" aria-live="polite" aria-atomic="true">
+            <div class="hash-placeholder"><span aria-hidden="true">⌁</span> Your hash will appear here</div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <span>Passwise <span class="footer-separator">·</span> A learning tool, not a security guarantee.</span>
+        <span>No password leaves your browser for analysis.</span>
+      </footer>
+    </main>
+  </body>
+</html>
